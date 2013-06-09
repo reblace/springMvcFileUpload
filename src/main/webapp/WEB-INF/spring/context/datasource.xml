@@ -1,0 +1,25 @@
+<b:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:b="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+						http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd
+						http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.1.xsd">
+
+	<b:beans profile="production">
+		<b:bean id="adminDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+			<b:property name="driverClassName" value="com.mysql.jdbc.Driver" />
+			<b:property name="url" value="${security.datasource.url}" />
+			<b:property name="username" value="${security.datasource.username}" />
+			<b:property name="password" value="${security.datasource.password}" />
+		</b:bean>
+	</b:beans>
+
+	<b:beans profile="development">
+		<jdbc:embedded-database id="adminDataSource" type="HSQL">
+			<jdbc:script location="/resources/sql/create_schema.sql"/>
+			<jdbc:script location="/resources/sql/populate_development.sql"/>
+		</jdbc:embedded-database>
+	</b:beans>
+
+</b:beans> 
